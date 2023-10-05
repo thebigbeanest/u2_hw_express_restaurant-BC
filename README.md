@@ -15,4 +15,5 @@ For this lab, lets create a back end server that renders data for a mock restaur
 - An Express Server with Index and Show routes for at least 3 different data models - Appetizers, Entrees, and Desserts
 - At least 3 objects within each Index Route
 - The ability to show an individual object by its Id in the route
+- A controller attached to each route to keep our code clean, modular, and DRY
 - There is no limit to what you can do with each, but take some time to think of what your data should look like - Name? Price? An Image URL? How about booleans for things like Vegan, Gluten Free, Kosher, Halal...
