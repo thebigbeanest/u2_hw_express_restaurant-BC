@@ -2,8 +2,6 @@
 
 # The Express-taurant Menu App
 
-<img src="./thebear.jpeg">
-
 ![](https://media.gq.com/photos/62b9ffaec206adc9cdaa431b/16:9/w_3440,h_1935,c_limit/The_Bear_101_20210707_0043.jpg)
 ## Introduction
 
