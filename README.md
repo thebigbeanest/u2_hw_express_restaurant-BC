@@ -3,6 +3,7 @@
 # The Express-taurant Menu App
 
 <img src="./thebear.jpeg">
+![thebear](./thebearjpeg)
 
 ## Introduction
 
