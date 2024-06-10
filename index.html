@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Restaurant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .category {
+            margin-bottom: 40px;
+        }
+        .category h2 {
+            margin-top: 0;
+        }
+        .item {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+        #searchResults {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mock Restaurant</h1>
+    <div>
+        <input type="text" id="searchInput" placeholder="Search for dishes...">
+        <button onclick="search()">Search</button>
+    </div>
+    <div id="searchResults"></div>
+    
+    <div class="category" id="appetizers">
+        <h2>Appetizers</h2>
+    </div>
+    <div class="category" id="entrees">
+        <h2>Entrees</h2>
+    </div>
+    <div class="category" id="desserts">
+        <h2>Desserts</h2>
+    </div>
+
+    <script>
+        function fetchAndDisplay(category, elementId) {
+            fetch(`/api/${category}`)
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById(elementId);
+                    data.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'item';
+                        div.innerHTML = `
+                            <h3>${item.name}</h3>
+                            <img src="${item.imageUrl}" alt="${item.name}" width="100">
+                            <p>Price: $${item.price.toFixed(2)}</p>
+                            <p>Vegan: ${item.vegan ? 'Yes' : 'No'}</p>
+                            <p>Gluten Free: ${item.glutenFree ? 'Yes' : 'No'}</p>
+                        `;
+                        container.appendChild(div);
+                    });
+                });
+        }
+
+        function search() {
+            const query = document.getElementById('searchInput').value;
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+
+            if (query) {
+                const categories = ['appetizers', 'entrees', 'desserts'];
+                categories.forEach(category => {
+                    fetch(`/api/search/${category}?q=${query}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length > 0) {
+                                const div = document.createElement('div');
+                                div.className = 'category';
+                                div.innerHTML = `<h2>Search Results in ${category.charAt(0).toUpperCase() + category.slice(1)}</h2>`;
+                                data.forEach(item => {
+                                    const itemDiv = document.createElement('div');
+                                    itemDiv.className = 'item';
+                                    itemDiv.innerHTML = `
+                                        <h3>${item.name}</h3>
+                                        <img src="${item.imageUrl}" alt="${item.name}" width="100">
+                                        <p>Price: $${item.price.toFixed(2)}</p>
+                                        <p>Vegan: ${item.vegan ? 'Yes' : 'No'}</p>
+                                        <p>Gluten Free: ${item.glutenFree ? 'Yes' : 'No'}</p>
+                                    `;
+                                    div.appendChild(itemDiv);
+                                });
+                                searchResults.appendChild(div);
+                            }
+                        });
+                });
+            }
+        }
+
+        fetchAndDisplay('appetizers', 'appetizers');
+        fetchAndDisplay('entrees', 'entrees');
+        fetchAndDisplay('desserts', 'desserts');
+    </script>
+</body>
+</html>
